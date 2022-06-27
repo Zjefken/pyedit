@@ -4,18 +4,26 @@ from tkinter import filedialog as fd
 root = tk.Tk()
 textbox = tk.Text()
 textbox.pack()
-
-def printData():
-  print('printData called')
-  print(textbox.get('1.0','end-1c'))
-  root.after(500, printData)
+file = None
 
 def loadFile():
+  global file
   print('loadFile called')
-  bestand = fd.askopenfilename()
-  print(bestand)
-  pass
+  file = fd.askopenfilename()
+  print(file)
+  with open(file, 'rb') as fileRead:
+    content = fileRead.read()
+    textbox.delete('1.0','end-1c')
+    textbox.insert('1.0', content)
 
-loadButton = tk.Button(text='Laad bestand(naam geschreven)', command=loadFile).pack()
-printData()
+def saveFile():
+  global file
+  print('saveFile called')
+  if file == None:
+    file = fd.askopenfilename()
+  with open(file, 'wb') as fileWrite:
+    fileWrite.write(textbox.get('1.0','end-1c').encode('utf-8'))
+
+loadButton = tk.Button(text='Load file', command=loadFile).pack()
+saveButton = tk.Button(text='Save file', command=saveFile).pack()
 root.mainloop()
