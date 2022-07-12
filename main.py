@@ -8,9 +8,7 @@ file = None
 
 def loadFile():
   global file
-  print('loadFile called')
   file = fd.askopenfilename()
-  print(file)
   with open(file, 'rb') as fileRead:
     content = fileRead.read()
     textbox.delete('1.0','end-1c')
@@ -18,7 +16,6 @@ def loadFile():
 
 def saveFile():
   global file
-  print('saveFile called')
   if file == None:
     file = fd.askopenfilename()
   with open(file, 'wb') as fileWrite:
